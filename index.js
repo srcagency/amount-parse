@@ -2,7 +2,8 @@
 
 module.exports = parse
 
-function parse(amount, ds = getDecimalSeparator()) {
+function parse(amount, opts = {}) {
+	const ds = opts.ds || getDecimalSeparator(opts.locale)
 	const cleaned = amount.replace(new RegExp(`[^0-9${ds}]+`, 'g'), '')
 	if (cleaned !== '') {
 		const parts = cleaned.split(ds)
@@ -18,8 +19,8 @@ function parse(amount, ds = getDecimalSeparator()) {
 	}
 }
 
-function getDecimalSeparator() {
-	return Intl.NumberFormat()
+function getDecimalSeparator(locale) {
+	return Intl.NumberFormat(locale)
 		.formatToParts(1.1)
 		.find((part) => part.type === 'decimal').value
 }

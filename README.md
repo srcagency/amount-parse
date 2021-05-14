@@ -15,7 +15,8 @@ parse('1') // {exponent: 0, value: 1}
 parse('1.5') // {exponent: 1, value: 15}
 parse('1.51') // {exponent: 2, value: 151}
 parse('1,000') // {exponent: 0, value: 1000}
-parse('1,000', ',') // {exponent: 3, value: 1000}
+parse('1,000', {ds: ','}) // {exponent: 3, value: 1000}
+parse('1,000', {locale: 'da'}) // {exponent: 3, value: 1000}
 parse('1.000,1') // {exponent: 4, value: 10001}
 parse('1,000.2') // {exponent: 1, value: 10002}
 parse('1,000.25') // {exponent: 2, value: 100025}
@@ -25,5 +26,7 @@ parse('1,000.25') // {exponent: 2, value: 100025}
 $ parse-amount 1,234.56
 { exponent: 5, value: 123456 }
 $ parse-amount --decimal-separator , 1,234.56
+{ exponent: 2, value: 123456 }
+$ parse-amount --locale da 1,234.56
 { exponent: 2, value: 123456 }
 ```
