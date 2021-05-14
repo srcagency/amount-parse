@@ -1,31 +1,29 @@
 # Parse amount
 
-Parse a string amount to a number of the minor amount with a best effort.
-
-When typing an amount people mix up the use of decimal and thousand separators
-and it only becomes harder when copy/pasting between different applications
-with different locale settings.
-
-This package does its best to guess the intended value.
+Parse a string amount according to the locale settings.
 
 ```shell
-npm install amount-parse --save
+npm install amount-parse
 ```
 
 ```js
 var parse = require('amount-parse');
 
-parse('1');	// 100
-parse('1,5');	// 150
-parse('1,51');	// 151
-parse('1,000');	// 100000
-parse('1.000');	// 100000
-parse('1.000,1');	// 100010
-parse('1,000.2');	// 100020
-parse('1,000.25');	// 100025
+// assuming a locale with a decimal separator of "."
+
+parse('1') // {exponent: 0, value: 1}
+parse('1.5') // {exponent: 1, value: 15}
+parse('1.51') // {exponent: 2, value: 151}
+parse('1,000') // {exponent: 0, value: 1000}
+parse('1,000', ',') // {exponent: 3, value: 1000}
+parse('1.000,1') // {exponent: 4, value: 10001}
+parse('1,000.2') // {exponent: 1, value: 10002}
+parse('1,000.25') // {exponent: 2, value: 100025}
 ```
 
 ```shell
-$ parse-amount 1.234,56
-1234.56
+$ parse-amount 1,234.56
+{ exponent: 5, value: 123456 }
+$ parse-amount --decimal-separator , 1,234.56
+{ exponent: 2, value: 123456 }
 ```

@@ -1,14 +1,28 @@
-'use strict';
+'use strict'
 
-module.exports = parse;
+module.exports = parse
 
-function parse( amount ){
-	var groups = amount.split(/[\.\,]/);
-	var last = groups[groups.length - 1];
+function parse(amount, ds = getDecimalSeparator()) {
+	const cleaned = amount.replace(
+		new RegExp(`[^0-9${ds}]+`, 'g'),
+		''
+	)
+	if (cleaned !== '') {
+		const parts = cleaned.split(ds)
+		if (parts.length === 1) {
+			return {exponent: 0, value: Number.parseInt(parts[0], 10)}
+		} else {
+			const last = parts[parts.length - 1]
+			return {
+				exponent: last.length,
+				value: Number.parseInt(parts.join(''), 10),
+			}
+		}
+	}
+}
 
-	if (groups.length > 1 && last.length < 3)
-		return parseInt(groups.slice(0, -1).join('') || 0, 10) * 100
-			+ parseInt(last, 10) * (last.length === 2 ? 1 : 10)
-
-	return parseInt(groups.join(''), 10) * 100;
+function getDecimalSeparator() {
+	return Intl.NumberFormat()
+		.formatToParts(1.1)
+		.find((part) => part.type === 'decimal').value
 }

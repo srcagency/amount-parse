@@ -1,16 +1,14 @@
 #!/usr/bin/env node
-'use strict';
+'use strict'
 
-var argv = require('minimist')(process.argv.slice(2));
-
-var parse = require('../');
+const argv = require('minimist')(process.argv.slice(2))
+const parse = require('../')
 
 try {
-	if (argv._.length === 0)
-		throw new Error('Missing amount');
+	if (argv._.length === 0) throw new Error('Missing amount')
 
-	console.log(parse(argv._[0]+''));
-} catch( e ){
-	console.error(e.message);
-	process.exit(1);
+	console.log(parse(argv._[0] + '', argv['decimal-separator']))
+} catch (e) {
+	console.error(e.message)
+	process.exit(1)
 }
