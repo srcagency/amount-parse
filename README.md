@@ -7,7 +7,7 @@ npm install amount-parse
 ```
 
 ```js
-var parse = require('amount-parse');
+var parse = require('amount-parse')
 
 // assuming a locale with a decimal separator of "."
 

@@ -3,10 +3,7 @@
 module.exports = parse
 
 function parse(amount, ds = getDecimalSeparator()) {
-	const cleaned = amount.replace(
-		new RegExp(`[^0-9${ds}]+`, 'g'),
-		''
-	)
+	const cleaned = amount.replace(new RegExp(`[^0-9${ds}]+`, 'g'), '')
 	if (cleaned !== '') {
 		const parts = cleaned.split(ds)
 		if (parts.length === 1) {
